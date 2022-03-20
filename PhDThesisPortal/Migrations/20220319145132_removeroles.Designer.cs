@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhDThesisPortal.Data;
 
 namespace PhDThesisPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220319145132_removeroles")]
+    partial class removeroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,16 +234,9 @@ namespace PhDThesisPortal.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("EnrollmentId")
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAdminUser")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -268,6 +263,11 @@ namespace PhDThesisPortal.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentEnrollmentId")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -308,10 +308,10 @@ namespace PhDThesisPortal.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("FacultyId")
+                    b.Property<int>("FacultyId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("MyIdentityUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
@@ -330,7 +330,7 @@ namespace PhDThesisPortal.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("MyIdentityUserId");
 
                     b.HasIndex("SubjectId");
 
@@ -368,26 +368,14 @@ namespace PhDThesisPortal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CompletionPercentage")
-                        .HasColumnType("int");
-
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FacultyId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("SubmissionFilePath")
                         .HasColumnType("nvarchar(max)");
@@ -479,15 +467,15 @@ namespace PhDThesisPortal.Migrations
 
             modelBuilder.Entity("PhDThesisPortal.Models.Project", b =>
                 {
-                    b.HasOne("PhDThesisPortal.Models.Faculty", null)
+                    b.HasOne("PhDThesisPortal.Models.Faculty", "Faculty")
                         .WithMany("Projects")
-                        .HasForeignKey("FacultyId");
-
-                    b.HasOne("PhDThesisPortal.Models.MyIdentityUser", "User")
-                        .WithMany("Projects")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PhDThesisPortal.Models.MyIdentityUser", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("MyIdentityUserId");
 
                     b.HasOne("PhDThesisPortal.Models.Subject", "Subject")
                         .WithMany("Projects")
@@ -501,11 +489,11 @@ namespace PhDThesisPortal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Faculty");
+
                     b.Navigation("Subject");
 
                     b.Navigation("SubmissionDetails");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PhDThesisPortal.Models.Subject", b =>
@@ -528,7 +516,7 @@ namespace PhDThesisPortal.Migrations
                         .IsRequired();
 
                     b.HasOne("PhDThesisPortal.Models.MyIdentityUser", "User")
-                        .WithMany("SubmissionDetails")
+                        .WithMany()
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -555,8 +543,6 @@ namespace PhDThesisPortal.Migrations
             modelBuilder.Entity("PhDThesisPortal.Models.MyIdentityUser", b =>
                 {
                     b.Navigation("Projects");
-
-                    b.Navigation("SubmissionDetails");
                 });
 
             modelBuilder.Entity("PhDThesisPortal.Models.Subject", b =>

@@ -20,17 +20,17 @@ using static PhDThesisPortal.Models.Enums.MyIdentityRolenames;
 namespace PhDThesisPortal.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterModel : PageModel
+    public class RegisterMentor : PageModel
     {
         private readonly SignInManager<MyIdentityUser> _signInManager;
         private readonly UserManager<MyIdentityUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<RegisterMentor> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public RegisterMentor(
             UserManager<MyIdentityUser> userManager,
             SignInManager<MyIdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<RegisterMentor> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -75,7 +75,7 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
             [Required]
             public string Gender { get; set; }
 
-            [Display(Name = "Student Enrollment Number")]
+            [Display(Name = "Mentor Enrollment Number")]
             [StringLength(8, ErrorMessage = "{0} cannot have more than {1} character")]
             [MinLength(8, ErrorMessage = "{0} should have at least {1} character")]
             public string EnrollmentId { get; set; }
@@ -85,9 +85,7 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
             [DataType(DataType.Date)]
             [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
             public DateTime DateOfBirth { get; set; }
-            [Display(Name = "Is Admin User?")]
-            [Required]
-            public bool IsAdminUser { get; set; } = false;
+
 
         }
 
@@ -114,7 +112,7 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRolesAsync(user, new string[] {
-                        RoleNames.Student.ToString()
+                        RoleNames.Mentor.ToString()
                     });
                     _logger.LogInformation("User created a new account with password.");
 

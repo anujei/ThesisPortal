@@ -19,15 +19,15 @@ namespace PhDThesisPortal.Models
         public string DepartmentName { get; set; }
 
 
-        #region Navigation Properties to the Subject Model
+        #region Navigation Properties to the User Model
 
         // Subjects of the Current Department Object.
         // Can be Null (current department might not have any subjects).
-        public ICollection<Subject> Subjects { get; set; }
+        public ICollection<MyIdentityUser> User { get; set; }
 
         #endregion
 
-        #region Navigation Properties to the SubmissionDetail Model
+        #region Navigation Properties to the Submission Detials Model
 
         // Subjects of the Current Department Object.
         // Can be Null (current department might not have any subjects).

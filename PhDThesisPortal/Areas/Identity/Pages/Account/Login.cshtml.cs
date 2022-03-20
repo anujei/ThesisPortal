@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PhDThesisPortal.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace PhDThesisPortal.Areas.Identity.Pages.Account
 {
@@ -86,7 +87,8 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
                 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    var User = Input.Email;
+                    HttpContext.Session.SetString("SessionUser",User);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

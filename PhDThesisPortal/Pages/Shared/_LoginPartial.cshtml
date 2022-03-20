@@ -1,5 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Identity;
 @using PhDThesisPortal.Models;
+@using static PhDThesisPortal.Models.Enums.MyIdentityRolenames
 
 @inject SignInManager<MyIdentityUser> SignInManager
 @inject UserManager<MyIdentityUser> _userManager
@@ -9,17 +11,83 @@
 }
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="other-option">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+	<div class="other-option">
+        <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
     </div>
     <div class="other-option">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            <button id="logout" type="submit" class="nav-link btn btn-link text-light">Logout</button>
         </form>
     </div>
+	@if (await _userManager.IsInRoleAsync(user, RoleNames.Student.ToString()))
+    {
+		<ul class="navbar-nav">
+			<li class="nav-item"> 
+				<a href="/" class="nav-link">Home </a>
+			</li>
+			<li class="nav-item">
+				<a href="about.html" class="nav-link">About Us</a>
+			</li>
+			<li class="nav-item">
+				<a href="contact.html" class="nav-link">Contact</a>
+			</li>
+			<li class="nav-item">
+				<a href="/SubmissionDetails/Create" class="nav-link">Submission</a>
+			</li>
+			<li class="nav-item">
+				<a href="/SubmissionDetails/studentIndex" class="nav-link">View Submission Status</a>
+			</li>
+		</ul>
+	}
+	@if (await _userManager.IsInRoleAsync(user, RoleNames.Administrator.ToString()))
+    {
+		<ul class="navbar-nav">
+			<li class="nav-item"> 
+				<a href="/" class="nav-link">Home </a>
+			</li>
+			<li class="nav-item">
+				<a href="about.html" class="nav-link">About Us</a>
+			</li>
+			<li class="nav-item">
+				<a href="contact.html" class="nav-link">Contact</a>
+			</li>
+			<li class="nav-item">
+				<a href="Identity/Account/RegisterMentor" class="nav-link">Faculty</a>
+			</li>
+		</ul>
+	}
+	@if (await _userManager.IsInRoleAsync(user, RoleNames.Mentor.ToString()))
+    {
+		<ul class="navbar-nav">
+			<li class="nav-item"> 
+				<a href="/" class="nav-link">Home </a>
+			</li>
+			<li class="nav-item">
+				<a href="about.html" class="nav-link">About Us</a>
+			</li>
+			<li class="nav-item">
+				<a href="contact.html" class="nav-link">Contact</a>
+			</li>
+			<li class="nav-item">
+				<a href="/SubmissionDetails" class="nav-link">Project</a>
+			</li>
+		</ul>
+	}
+    
 }
 else
 {
+	<ul class="navbar-nav">
+							<li class="nav-item"> 
+								<a href="/" class="nav-link">Home</a>
+							</li>
+							<li class="nav-item">
+								<a href="about.html" class="nav-link">About Us</a>
+							</li>
+							<li class="nav-item">
+								<a href="contact.html" class="nav-link">Contact</a>
+							</li>
+						</ul>
     <div class="other-option">
 		<a class="default-btn" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
 	</div>

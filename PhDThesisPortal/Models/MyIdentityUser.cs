@@ -21,24 +21,21 @@ namespace PhDThesisPortal.Models
         [Required]
         public string Gender { get; set; }
 
-        [Display(Name = "User Role")]
-        [Required]
-        public int Role { get; set; }
-
-        [Display(Name = "Student Enrollment Number")]
-        [Required]
+        [Display(Name = "Enrollment Number")]
         [StringLength(8, ErrorMessage = "{0} cannot have more than {1} character")]
         [MinLength(8, ErrorMessage = "{0} should have at least {1} character")]
-        public string StudentEnrollmentId { get; set; }
+        public string EnrollmentId { get; set; }
 
         [Display(Name = "Date Of Birth")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required]
         public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Is User admin")]
+        public bool IsAdminUser { get; set; } = false;
 
-        #region Navigation Properties to the Project Model
-        public ICollection<Project> Projects { get; set; }
+        #region Navigation Properties to the SubmissionDetails Model
+        public ICollection<SubmissionDetail> SubmissionDetails { get; set; }
         #endregion
     }
 }

@@ -80,7 +80,9 @@ namespace PhDThesisPortal
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<MyIdentityUser> userManager,
+            RoleManager<MyIdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -100,6 +102,7 @@ namespace PhDThesisPortal
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
@@ -111,8 +114,8 @@ namespace PhDThesisPortal
 
             });
 
-            //ApplicationDbContextSeed.SeedIdentityRolesAsync(roleManager).Wait();
-            //ApplicationDbContextSeed.SeedIdentityUserAsync(userManager).Wait();
+            ApplicationDbContextSeed.SeedIdentityRolesAsync(roleManager).Wait();
+            ApplicationDbContextSeed.SeedIdentityUserAsync(userManager).Wait();
         }
     }
 }

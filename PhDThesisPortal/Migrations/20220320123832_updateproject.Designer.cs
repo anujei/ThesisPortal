@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhDThesisPortal.Data;
 
 namespace PhDThesisPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220320123832_updateproject")]
+    partial class updateproject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -375,13 +377,14 @@ namespace PhDThesisPortal.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FacultyId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("FacultyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -390,6 +393,7 @@ namespace PhDThesisPortal.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SubmissionFilePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("status")
