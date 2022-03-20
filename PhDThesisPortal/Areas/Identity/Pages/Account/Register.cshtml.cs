@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -62,6 +61,7 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
             [Display(Name = "Display Name")]
             [Required]
             [MinLength(3)]
@@ -102,14 +102,13 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new MyIdentityUser {
-                    UserName = Input.Email,
-                    Email = Input.Email,
+                var user = new MyIdentityUser { UserName = Input.Email,
+                Email = Input.Email,
                     DisplayName = Input.DisplayName,
                     Gender = Input.Gender,
                     Role = Input.Role,
                     StudentEnrollmentId = Input.StudentEnrollmentId,
-                    DateOfBirth = Input.DateOfBirth,
+                    DateOfBirth = Input.DateOfBirth
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

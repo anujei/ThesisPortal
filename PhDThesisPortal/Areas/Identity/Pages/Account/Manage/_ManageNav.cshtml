@@ -1,5 +1,4 @@
-﻿@using PhDThesisPortal.Models
-@inject SignInManager<MyIdentityUser> SignInManager
+﻿@inject SignInManager<MyIdentityUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

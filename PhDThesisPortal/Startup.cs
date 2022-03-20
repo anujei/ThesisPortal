@@ -85,6 +85,7 @@ namespace PhDThesisPortal
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -97,17 +98,21 @@ namespace PhDThesisPortal
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+               
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
 
             });
+
+            //ApplicationDbContextSeed.SeedIdentityRolesAsync(roleManager).Wait();
+            //ApplicationDbContextSeed.SeedIdentityUserAsync(userManager).Wait();
         }
     }
 }

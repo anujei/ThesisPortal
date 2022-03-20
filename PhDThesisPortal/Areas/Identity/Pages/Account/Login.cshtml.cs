@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PhDThesisPortal.Models;
-using PhDThesisPortal.Data;
 
 namespace PhDThesisPortal.Areas.Identity.Pages.Account
 {
@@ -22,7 +21,6 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
         private readonly UserManager<MyIdentityUser> _userManager;
         private readonly SignInManager<MyIdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly ApplicationDbContext _context;
 
         public LoginModel(SignInManager<MyIdentityUser> signInManager, 
             ILogger<LoginModel> logger,
@@ -82,16 +80,12 @@ namespace PhDThesisPortal.Areas.Identity.Pages.Account
         
             if (ModelState.IsValid)
             {
-                //int role = _context.MyIdentityUser.finc
-                
-
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 
                 if (result.Succeeded)
                 {
-
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

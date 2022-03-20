@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PhDThesisPortal.Models;
-
 namespace PhDThesisPortal.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
